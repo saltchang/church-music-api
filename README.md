@@ -26,7 +26,7 @@ $ brew install dep
 $ brew upgrade dep
 ```
 
-Then install the requirements throw dep:
+Then install the requirements through dep:
 
 ```shell
 
