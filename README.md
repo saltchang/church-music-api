@@ -18,6 +18,12 @@ or use SSH:
 $ git clone git@github.com:saltchang/go-api-songs.git
 ```
 
+And then...
+
+```shell
+$ cd go-api-songs
+```
+
 Install or update the Dep:
 
 ```shell
