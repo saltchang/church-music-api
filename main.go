@@ -1,12 +1,15 @@
 package main
 
 import (
+	"context"
 	"encoding/json"
+	"fmt"
 	"log"
 	"net/http"
 	"strconv"
 
 	"github.com/gorilla/mux"
+	"github.com/mongodb/mongo-go-driver/mongo"
 )
 
 var (
@@ -172,8 +175,30 @@ func deleteSong(response http.ResponseWriter, request *http.Request) {
 }
 
 func main() {
+
+	// MongoDB
+	// Create the MongoDB client
+	fmt.Print("Connected to MongoDB...")
+	client, err := mongo.Connect(context.TODO(), "mongodb://localhost:27017")
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	// Check the MongoDB connection
+	err = client.Ping(context.TODO(), nil)
+	if err != nil {
+		log.Fatal(err)
+	}
+	fmt.Println("...[Success!]")
+
+	// Get MongoDB collection "songs" from database "caten-worship"
+	songsDB := client.Database("caten_songs").Collection("songs")
+	fmt.Println(songsDB)
+
 	// Songs Data
+	fmt.Print("Create Dummy Songs Data...")
 	dummySongs()
+	fmt.Println("...[Success!]")
 
 	// Set the Main Router
 	mainRouter := mux.NewRouter()
@@ -185,5 +210,6 @@ func main() {
 	mainRouter.HandleFunc("/api/songs", createSong).Methods("POST")
 	mainRouter.HandleFunc("/api/songs/{id}", updateSong).Methods("PUT")
 	mainRouter.HandleFunc("/api/songs/{id}", deleteSong).Methods("DELETE")
+	fmt.Println("Server starts to run...")
 	log.Fatal(http.ListenAndServe(":8000", mainRouter))
 }
