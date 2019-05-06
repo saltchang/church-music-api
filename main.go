@@ -122,14 +122,59 @@ func getIndex(response http.ResponseWriter, request *http.Request) {
 	json.NewEncoder(response).Encode("index")
 }
 
-// Get All Songs (todo)
-func getSongs(response http.ResponseWriter, request *http.Request) {
+// Get All Songs
+func getAllSongs(response http.ResponseWriter, request *http.Request) {
 	response.Header().Set("Content-Type", "application/json")
-	json.NewEncoder(response).Encode(songs)
+
+	// Make a context with timeout for 30s, for listing all songs
+	ctx, cancel := context.WithTimeout(context.Background(), 30*time.Second)
+	// Create a cursor to find the songs
+	cur, err := songsDB.Find(ctx, bson.D{})
+	if err != nil {
+		fmt.Printf("Error: %v\n", err)
+		cancel()
+		return
+	}
+	// Make a defer to handle the closing of the cursor
+	defer cur.Close(ctx)
+
+	// Make a slice for saving the result songs
+	var list []bson.M
+
+	// If there's next song in the cursor
+	for cur.Next(ctx) {
+		// Make a bson.M type result buffer
+		var result bson.M
+
+		// Decode the current song pointed by the cursor as result
+		err := cur.Decode(&result)
+		if err != nil {
+			fmt.Printf("Error: %v\n", err)
+			cancel()
+			return
+		}
+
+		// Save the current found song into the slice
+		list = append(list, result)
+	}
+
+	// If there's any error in the cursor
+	if err := cur.Err(); err != nil {
+		fmt.Printf("Error: %v\n", err)
+		cancel()
+		return
+	}
+
+	// All songs found out, Encode the songs list to json and return it as a response
+	json.NewEncoder(response).Encode(&list)
+
+	cancel()
+	return
+
 }
 
-// Get A Song
-func getSong(response http.ResponseWriter, request *http.Request) {
+// Get A Song By SID
+func getSongBySID(response http.ResponseWriter, request *http.Request) {
 	response.Header().Set("Content-Type", "application/json")
 	params := mux.Vars(request)
 
@@ -158,6 +203,61 @@ func getSong(response http.ResponseWriter, request *http.Request) {
 	json.NewEncoder(response).Encode(&result)
 
 	// All things done, cancel the context
+	cancel()
+	return
+
+}
+
+// Get A Song By Searching Title (todo)
+func getSongByTitle(response http.ResponseWriter, request *http.Request) {
+	response.Header().Set("Content-Type", "application/json")
+	params := mux.Vars(request)
+
+	// The filter that use to find the song by searching title
+	filter := bson.D{{"title", primitive.Regex{Pattern: params["title"], Options: params["title2"]}}}
+
+	// Make a context with timeout for 30s, for listing songs
+	ctx, cancel := context.WithTimeout(context.Background(), 30*time.Second)
+	// Create a cursor to find the songs by title
+	cur, err := songsDB.Find(ctx, filter)
+	if err != nil {
+		fmt.Printf("Error: %v\n", err)
+		cancel()
+		return
+	}
+	// Make a defer to handle the closing of the cursor
+	defer cur.Close(ctx)
+
+	// Make a slice for saving the result songs
+	var list []bson.M
+
+	// If there's next song in the cursor
+	for cur.Next(ctx) {
+		// Make a bson.M type result buffer
+		var result bson.M
+
+		// Decode the current song pointed by the cursor as result
+		err := cur.Decode(&result)
+		if err != nil {
+			fmt.Printf("Error: %v\n", err)
+			cancel()
+			return
+		}
+
+		// Save the current found song into the slice
+		list = append(list, result)
+	}
+
+	// If there's any error in the cursor
+	if err := cur.Err(); err != nil {
+		fmt.Printf("Error: %v\n", err)
+		cancel()
+		return
+	}
+
+	// All songs found out, Encode the songs list to json and return it as a response
+	json.NewEncoder(response).Encode(&list)
+
 	cancel()
 	return
 
@@ -251,10 +351,13 @@ func main() {
 	mainRouter.HandleFunc("/", getIndex).Methods("GET")
 
 	// Route: Get all songs
-	mainRouter.HandleFunc("/api/songs", getSongs).Methods("GET")
+	mainRouter.HandleFunc("/api/songs", getAllSongs).Methods("GET")
 
 	// Route: Get a song by its SID
-	mainRouter.HandleFunc("/api/songs/{sid}", getSong).Methods("GET")
+	mainRouter.HandleFunc("/api/songs/sid/{sid}", getSongBySID).Methods("GET")
+
+	// Route: Get a song by searching title
+	mainRouter.HandleFunc("/api/songs/title/{title}/{title2}", getSongByTitle).Methods("GET")
 
 	// Route: Create a song
 	mainRouter.HandleFunc("/api/songs", createSong).Methods("POST")

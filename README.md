@@ -18,7 +18,7 @@ or use SSH:
 $ git clone git@github.com:saltchang/go-api-songs.git
 ```
 
-And then...
+Go into the folder:
 
 ```shell
 $ cd go-api-songs
