@@ -32,7 +32,7 @@ $ cd go-api-songs
 
 ```
 
-Install or update the Dep:
+Install or update the Dep (by using [Homebrew](https://brew.sh/)):
 
 ```shell
 
