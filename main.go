@@ -7,9 +7,11 @@ import (
 	"log"
 	"net/http"
 	"strconv"
+	"strings"
 	"time"
 
 	"github.com/gorilla/mux"
+
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"
@@ -128,8 +130,11 @@ func getAllSongs(response http.ResponseWriter, request *http.Request) {
 
 	// Make a context with timeout for 30s, for listing all songs
 	ctx, cancel := context.WithTimeout(context.Background(), 30*time.Second)
+
+	// Make a options for sorting the songs result
+	opts := options.FindOptions{Sort: bson.M{"sid": 1}}
 	// Create a cursor to find the songs
-	cur, err := songsDB.Find(ctx, bson.D{})
+	cur, err := songsDB.Find(ctx, bson.D{}, &opts)
 	if err != nil {
 		fmt.Printf("Error: %v\n", err)
 		cancel()
@@ -175,7 +180,10 @@ func getAllSongs(response http.ResponseWriter, request *http.Request) {
 
 // Get A Song By SID
 func getSongBySID(response http.ResponseWriter, request *http.Request) {
+	// Set Header
 	response.Header().Set("Content-Type", "application/json")
+
+	// Get params from router
 	params := mux.Vars(request)
 
 	// The filter that use to find the song by SID
@@ -208,17 +216,58 @@ func getSongBySID(response http.ResponseWriter, request *http.Request) {
 
 }
 
-// Get A Song By Searching Title (todo)
-func getSongByTitle(response http.ResponseWriter, request *http.Request) {
+// Get A Song By Multiple Queries Searching
+func getSongBySearch(response http.ResponseWriter, request *http.Request) {
+	// Set Header
 	response.Header().Set("Content-Type", "application/json")
+	// Get params from router
 	params := mux.Vars(request)
 
-	// The filter that use to find the song by searching title
-	filter := bson.D{{"title", primitive.Regex{Pattern: params["title"], Options: params["title2"]}}}
+	// Decode the params as args
+	// Song.Language arg
+	lang := params["lang"]
+	// Song.NumC arg
+	numc := params["c"]
+	// Song.Title arg
+	titleQ := params["title"]
+	// Split the arg by space, it was displayed as "+"
+	titles := strings.Split(titleQ, " ")
+
+	// Make a slice of bson.M prepared to jonin in the filter
+	filterSlice := []bson.M{}
+
+	// If there's a lang arg, add the lang filter into the filter slice
+	if lang != "" {
+		filterSlice = append(filterSlice, bson.M{"language": lang})
+	}
+	// If there's a num_c arg, add the lang filter into the filter slice
+	if numc != "" {
+		filterSlice = append(filterSlice, bson.M{"num_c": numc})
+	}
+
+	// Add all the keyword args of title into the filter slice
+	for _, s := range titles {
+		// If the title arg is not empty
+		if s != "" {
+			filterSlice = append(filterSlice, bson.M{"title": primitive.Regex{Pattern: s, Options: ""}})
+		}
+	}
+
+	// If she has no any key, then she shall be saved by me, Hero of the World.
+	if len(filterSlice) == 0 {
+		json.NewEncoder(response).Encode(bson.M{
+			"error_code": 5,
+			"message":    "Don't play with me",
+		})
+		return
+	}
+
+	// Make the filter and put all conditions from slice into it
+	filter := bson.M{"$and": filterSlice}
 
 	// Make a context with timeout for 30s, for listing songs
 	ctx, cancel := context.WithTimeout(context.Background(), 30*time.Second)
-	// Create a cursor to find the songs by title
+	// Create a cursor to search the songs by all args
 	cur, err := songsDB.Find(ctx, filter)
 	if err != nil {
 		fmt.Printf("Error: %v\n", err)
@@ -251,6 +300,15 @@ func getSongByTitle(response http.ResponseWriter, request *http.Request) {
 	// If there's any error in the cursor
 	if err := cur.Err(); err != nil {
 		fmt.Printf("Error: %v\n", err)
+		cancel()
+		return
+	}
+
+	if len(list) == 0 {
+		json.NewEncoder(response).Encode(bson.M{
+			"error_code": 4,
+			"message":    "No result found.",
+		})
 		cancel()
 		return
 	}
@@ -357,7 +415,7 @@ func main() {
 	mainRouter.HandleFunc("/api/songs/sid/{sid}", getSongBySID).Methods("GET")
 
 	// Route: Get a song by searching title
-	mainRouter.HandleFunc("/api/songs/title/{title}/{title2}", getSongByTitle).Methods("GET")
+	mainRouter.HandleFunc("/api/songs/search/", getSongBySearch).Queries("title", "{title}", "lang", "{lang}", "c", "{c}").Methods("GET")
 
 	// Route: Create a song
 	mainRouter.HandleFunc("/api/songs", createSong).Methods("POST")
@@ -369,6 +427,6 @@ func main() {
 	mainRouter.HandleFunc("/api/songs/{sid}", deleteSong).Methods("DELETE")
 
 	// All things are good now, server starts to run
-	fmt.Println("Server starts to run...")
-	log.Fatal(http.ListenAndServe(":8000", mainRouter))
+	fmt.Println("Server starts to run at: http://localhost:7700")
+	log.Fatal(http.ListenAndServe(":7700", mainRouter))
 }
