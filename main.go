@@ -228,6 +228,8 @@ func getSongBySearch(response http.ResponseWriter, request *http.Request) {
 	lang := params["lang"]
 	// Song.NumC arg
 	numc := params["c"]
+	// Song.Tonality arg
+	tona := params["to"]
 	// Song.Title arg
 	titleQ := params["title"]
 	// Split the arg by space, it was displayed as "+"
@@ -243,6 +245,10 @@ func getSongBySearch(response http.ResponseWriter, request *http.Request) {
 	// If there's a num_c arg, add the lang filter into the filter slice
 	if numc != "" {
 		filterSlice = append(filterSlice, bson.M{"num_c": numc})
+	}
+	// If there's a num_c arg, add the lang filter into the filter slice
+	if tona != "" {
+		filterSlice = append(filterSlice, bson.M{"tonality": tona})
 	}
 
 	// Add all the keyword args of title into the filter slice
@@ -334,22 +340,68 @@ func createSong(response http.ResponseWriter, request *http.Request) {
 
 // Update A Song
 func updateSong(response http.ResponseWriter, request *http.Request) {
+	// Set Header
 	response.Header().Set("Content-Type", "application/json")
+	// Get params from router
 	params := mux.Vars(request)
 
-	for index, song := range songs {
-		if song.SID == params["sid"] {
-			songs = append(songs[:index], songs[index+1:]...)
-			var updateSong Song
-			_ = json.NewDecoder(request.Body).Decode(&updateSong)
+	// The filter that use to find the song by SID
+	filter := bson.M{"sid": params["sid"]}
 
-			updateSong.SID = params["sid"]
-			songs = append(songs, updateSong)
-			json.NewEncoder(response).Encode(updateSong)
-			return
-		}
+	// Make a bson.M to store the data that ready to update
+	newData := bson.M{}
+	err := json.NewDecoder(request.Body).Decode(&newData)
+	if err != nil {
+		fmt.Printf("Error: %v\n", err)
+		json.NewEncoder(response).Encode(bson.M{
+			"error_code": 5,
+			"message":    "Don't play with me",
+		})
+		return
 	}
-	json.NewEncoder(response).Encode(songs)
+
+	// Make a update interface
+	update := bson.M{"$set": newData}
+
+	// Defined the type of result as a Song struct
+	result := &Song{}
+
+	// Make a context with timeout for 5s for find the expected song
+	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+
+	// Check if the song exist by its SID (defined by the filter)
+	// and decode to the result (which is a Song struct type)
+	err = songsDB.FindOne(ctx, filter).Decode(&result)
+	// Catch the error if it fails
+	if err != nil {
+		fmt.Printf("Error: %v\n", err)
+		json.NewEncoder(response).Encode(bson.M{
+			"error_code": 4,
+			"message":    "No result found.",
+		})
+		cancel()
+		return
+	}
+
+	// Update the song
+	res, err := songsDB.UpdateOne(ctx, filter, update)
+	if err != nil {
+		fmt.Printf("Error: %v\n", err)
+		json.NewEncoder(response).Encode(bson.M{
+			"error_code": 3,
+			"message":    "Something Wrong",
+		})
+		cancel()
+		return
+	}
+
+	// If the song found, encode it to json type
+	// and return the encoded result as response
+	json.NewEncoder(response).Encode(&res)
+
+	// All things done, cancel the context
+	cancel()
+	return
 }
 
 // Delete A Song (todo)
@@ -415,13 +467,13 @@ func main() {
 	mainRouter.HandleFunc("/api/songs/sid/{sid}", getSongBySID).Methods("GET")
 
 	// Route: Get a song by searching title
-	mainRouter.HandleFunc("/api/songs/search/", getSongBySearch).Queries("title", "{title}", "lang", "{lang}", "c", "{c}").Methods("GET")
+	mainRouter.HandleFunc("/api/songs/search/", getSongBySearch).Queries("title", "{title}", "lang", "{lang}", "c", "{c}", "to", "{to}").Methods("GET")
 
 	// Route: Create a song
 	mainRouter.HandleFunc("/api/songs", createSong).Methods("POST")
 
 	// Route: Update a song by its SID
-	mainRouter.HandleFunc("/api/songs/{sid}", updateSong).Methods("PUT")
+	mainRouter.HandleFunc("/api/songs/sid/{sid}", updateSong).Methods("PUT")
 
 	// Route: Delete a song by its SID
 	mainRouter.HandleFunc("/api/songs/{sid}", deleteSong).Methods("DELETE")
