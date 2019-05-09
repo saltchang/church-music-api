@@ -1,11 +1,10 @@
 # Songs API in Go
 
-歡迎前往 [Caten-Worship](https://caten-worship.herokuapp.com) 參觀
+A songs data API build on [Go Language](https://golang.org/), [Gorilla-Mux](https://github.com/gorilla/mux) and [MongoDB](https://www.mongodb.com/) with [MogoDB Go Driver](https://github.com/mongodb/mongo-go-driver)
 
-Welcome to visit [Caten-Worship](https://caten-worship.herokuapp.com) .
+This API will be used on [Caten-Worship](https://caten-worship.herokuapp.com) site after it is ready.
 
-Online MongoDB has not be set, so this API can't run yet.
-線上 MongoDB 尚未設定，因此本 API 目前還無法使用。
+For now, it has not deploy online yet. Just a local demo.
 
 ## Installation
 
@@ -35,7 +34,7 @@ $ cd go-api-songs
 
 ```
 
-Install or update the Dep (by using [Homebrew](https://brew.sh/)):
+Install or update the [Dep](https://github.com/golang/dep) (by using [Homebrew](https://brew.sh/)):
 
 ```shell
 
@@ -44,7 +43,7 @@ $ brew upgrade dep
 
 ```
 
-Then install the requirements through dep:
+Then install the requirements through Dep:
 
 ```shell
 
