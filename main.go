@@ -10,7 +10,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/saltchang/songs-go-api-for-caten/models"
+	"github.com/saltchang/church-music-api/models"
 
 	"github.com/gorilla/mux"
 
@@ -178,10 +178,13 @@ func getSongBySearch(response http.ResponseWriter, request *http.Request) {
 	// Make the filter and put all conditions from slice into it
 	filter := bson.M{"$and": filterSlice}
 
+	// Make a options for sorting the songs result
+	opts := options.FindOptions{Sort: bson.M{"sid": 1}}
+
 	// Make a context with timeout for 30s, for listing songs
 	ctx, cancel := context.WithTimeout(context.Background(), 30*time.Second)
 	// Create a cursor to search the songs by all args
-	cur, err := songsDB.Find(ctx, filter)
+	cur, err := songsDB.Find(ctx, filter, &opts)
 	if err != nil {
 		fmt.Printf("Error: %v\n", err)
 		cancel()
