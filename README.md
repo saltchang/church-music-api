@@ -1,10 +1,8 @@
-# Songs API in Go
+# Music API with Go for church
 
-A songs data API build on [Go Language](https://golang.org/), [Gorilla-Mux](https://github.com/gorilla/mux) and [MongoDB](https://www.mongodb.com/) with [MogoDB Go Driver](https://github.com/mongodb/mongo-go-driver)
+A music data API build with [Go](https://golang.org/), [Gorilla-Mux](https://github.com/gorilla/mux), [MogoDB Go Driver](https://github.com/mongodb/mongo-go-driver) from [MongoDB](https://www.mongodb.com), deploy on [AWS EC2](https://aws.amazon.com/tw/ec2) and [Ubuntu Linux OS](https://www.ubuntu.com)
 
-This API will be used on [Caten-Worship](https://caten-worship.herokuapp.com) site after it is ready.
-
-For now, it has not deploy online yet. Just a local demo.
+This API is used by [Caten-Worship](https://caten-worship.herokuapp.com).
 
 ## Installation
 
