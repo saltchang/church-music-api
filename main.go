@@ -22,7 +22,8 @@ import (
 )
 
 var (
-	songsDB *mongo.Collection // The collection of songs data in MongoDB
+	songsDB   *mongo.Collection // The collection of songs data in MongoDB
+	servePORT = ":7700"         // Defined the PORT to serve
 )
 
 // Index (todo)
@@ -385,6 +386,6 @@ func main() {
 	mainRouter.HandleFunc("/api/songs/{sid}", deleteSong).Methods("DELETE")
 
 	// All things are good now, server starts to run
-	fmt.Println("Server starts to run at: http://localhost:7700")
-	log.Fatal(http.ListenAndServe(":7700", mainRouter))
+	fmt.Println("Server starts to run at PORT" + servePORT)
+	log.Fatal(http.ListenAndServe(servePORT, mainRouter))
 }
