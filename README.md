@@ -8,6 +8,14 @@ For now, it has not deploy online yet. Just a local demo.
 
 ## Installation
 
+Change directory to `$GOPATH/src` first:
+
+```shell
+
+$ cd $GOPATH/src
+
+```
+
 Clone the files,
 
 use HTTPS:
@@ -30,16 +38,27 @@ Go into the folder:
 
 ```shell
 
-$ cd go-api-songs
+$ cd songs-go-api-for-caten
 
 ```
 
-Install or update the [Dep](https://github.com/golang/dep) (by using [Homebrew](https://brew.sh/)):
+Install or update the [Dep](https://github.com/golang/dep)
+
+by using [Homebrew](https://brew.sh/)) on macOS:
 
 ```shell
 
 $ brew install dep
 $ brew upgrade dep
+
+```
+
+or by using the following command on Linux:
+Your will need to create the GOBIN (`$GOPATH/bin`) directory first.
+
+```shell
+
+$ curl https://raw.githubusercontent.com/golang/dep/master/install.sh | sh
 
 ```
 
