@@ -5,14 +5,14 @@ import (
 	"log"
 	"net/http"
 
+	"github.com/saltchang/church-music-api/env"
 	"github.com/saltchang/church-music-api/models"
 	"github.com/saltchang/church-music-api/routes"
 )
 
 var (
-	r         *routes.Routers
-	db        = models.DB
-	servePORT = ":7700" // Defined the PORT to serve
+	r  *routes.Routers
+	db = models.DB
 )
 
 func main() {
@@ -26,6 +26,6 @@ func main() {
 	mainRouter := r.InitRouters()
 
 	// All things are good now, server starts to run
-	fmt.Println("Server starts to run at PORT" + servePORT)
-	log.Fatal(http.ListenAndServe(servePORT, mainRouter))
+	fmt.Println("Server starts to run at port" + env.ENV.Port)
+	log.Fatal(http.ListenAndServe(env.ENV.Port, mainRouter))
 }

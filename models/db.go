@@ -6,6 +6,7 @@ import (
 	"log"
 	"time"
 
+	"github.com/saltchang/church-music-api/env"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
 	"go.mongodb.org/mongo-driver/mongo/readpref"
@@ -20,12 +21,12 @@ type Database struct {
 func (db *Database) InitDB() *Database {
 
 	// MongoDB
-	fmt.Print("Create Client and connected to MongoDB...")
+	fmt.Println("Connected to MongoDB...")
 
 	// Make a context with timeout for 10s for create the client for MongoDB
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	// Create the client at port:27017 (MongoDB default)
-	client, err := mongo.Connect(ctx, options.Client().ApplyURI("mongodb://localhost:27017"))
+	client, err := mongo.Connect(ctx, options.Client().ApplyURI(env.ENV.MongoURI))
 	// If it fails...
 	if err != nil {
 		cancel()
@@ -42,11 +43,11 @@ func (db *Database) InitDB() *Database {
 	}
 
 	// If success
-	fmt.Println("...[Success!]")
+	fmt.Printf("Success!\n\n")
 
 	// Get MongoDB collection "songs" from database "caten-worship" as a
 	// *mongo.Collection type
-	db.Songs = client.Database("caten-worship").Collection("songs")
+	db.Songs = client.Database(env.ENV.SongsDBName).Collection(env.ENV.SongsCollectionName)
 
 	cancel()
 
