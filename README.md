@@ -1,4 +1,4 @@
-# Music API with Go for church
+# Music Go API for church
 
 A music data API build with [Go](https://golang.org/), [Gorilla-Mux](https://github.com/gorilla/mux), [MogoDB Go Driver](https://github.com/mongodb/mongo-go-driver) from [MongoDB](https://www.mongodb.com), deploy on [AWS EC2](https://aws.amazon.com/tw/ec2) and [Ubuntu Linux OS](https://www.ubuntu.com)
 
@@ -110,7 +110,7 @@ and then visit the site at [http://localhost:7700](http://localhost:7700)
 
 ### PUT
 
-- `"api/songs/sid/{sid}"` : update a song by its `{sid}` from the input document file.
+- `"/api/songs/sid/{sid}"` : update a song by its `{sid}` from the input document file.
   更新一首歌的資料
 
 ## Example
