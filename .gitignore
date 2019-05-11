@@ -22,4 +22,6 @@ data/
 /vendor/
 /Godeps/
 
+.env
+
 # End of https://www.gitignore.io/api/go

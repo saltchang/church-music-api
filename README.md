@@ -96,7 +96,7 @@ and then visit the site at [http://localhost:7700](http://localhost:7700)
 - `"/api/songs/sid/{sid}"` : get the song by its `{sid}`.
   透過指定的 SID 獲取歌曲
 
-- `"/api/songs/search/?lang={lang}&c={c}&to={to}&title={title}"` : search songs by multiple arguments.
+- `"/api/songs/search?lang={lang}&c={c}&to={to}&title={title}"` : search songs by multiple arguments.
   透過複數條件搜尋歌曲
 
   - `lang` : language - `"Chinese"` and `"Taiwanese"`
@@ -144,7 +144,7 @@ Response:
 #### Search songs
 
 ```http
-http://localhost:7700/api/songs/search/?lang=Chinese&c=7&to=A&title=來+歡
+http://localhost:7700/api/songs/search?lang=Chinese&c=7&to=A&title=來+歡
 ```
 
 Response:
