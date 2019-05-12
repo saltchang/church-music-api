@@ -22,7 +22,7 @@ type Env struct {
 }
 
 func (env *Env) loadENV() *Env {
-	err := godotenv.Load()
+	err := godotenv.Load(os.ExpandEnv("$GOPATH/src/github.com/saltchang/church-music-api/.env"))
 	if err != nil {
 		log.Fatal("Error loading .env file")
 	}
