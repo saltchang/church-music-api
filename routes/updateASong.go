@@ -12,8 +12,8 @@ import (
 	"go.mongodb.org/mongo-driver/bson"
 )
 
-// Update A Song
-func updateSong(response http.ResponseWriter, request *http.Request) {
+// UpdateSong route
+func UpdateSong(response http.ResponseWriter, request *http.Request) {
 	// Set Header
 	response.Header().Set("Content-Type", "application/json")
 	// Get params from router

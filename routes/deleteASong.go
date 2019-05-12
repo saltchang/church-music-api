@@ -8,8 +8,8 @@ import (
 	"github.com/saltchang/church-music-api/models"
 )
 
-// Delete A Song (todo)
-func deleteSong(response http.ResponseWriter, request *http.Request) {
+// DeleteSong route (todo)
+func DeleteSong(response http.ResponseWriter, request *http.Request) {
 	response.Header().Set("Content-Type", "application/json")
 	params := mux.Vars(request)
 

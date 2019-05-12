@@ -8,8 +8,8 @@ import (
 	"github.com/saltchang/church-music-api/models"
 )
 
-// Create A Song (todo)
-func createSong(response http.ResponseWriter, request *http.Request) {
+// CreateSong route (todo)
+func CreateSong(response http.ResponseWriter, request *http.Request) {
 	response.Header().Set("Content-Type", "application/json")
 	var song models.Song
 	_ = json.NewDecoder(request.Body).Decode(&song)

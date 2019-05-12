@@ -11,8 +11,8 @@ import (
 	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
-// Get All Songs
-func getAllSongs(response http.ResponseWriter, request *http.Request) {
+// GetAllSongs route
+func GetAllSongs(response http.ResponseWriter, request *http.Request) {
 	response.Header().Set("Content-Type", "application/json")
 
 	// Make a context with timeout for 30s, for listing all songs
@@ -58,6 +58,7 @@ func getAllSongs(response http.ResponseWriter, request *http.Request) {
 	}
 
 	// All songs found out, Encode the songs list to json and return it as a response
+	fmt.Println(`"/api/songs" route accessed.`)
 	json.NewEncoder(response).Encode(&list)
 
 	cancel()

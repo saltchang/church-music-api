@@ -5,7 +5,7 @@ import (
 	"net/http"
 )
 
-// Index (todo)
-func getIndex(response http.ResponseWriter, request *http.Request) {
+// GetIndex route (todo)
+func GetIndex(response http.ResponseWriter, request *http.Request) {
 	json.NewEncoder(response).Encode("index")
 }

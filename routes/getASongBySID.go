@@ -12,8 +12,8 @@ import (
 	"go.mongodb.org/mongo-driver/bson"
 )
 
-// Get A Song By SID
-func getSongBySID(response http.ResponseWriter, request *http.Request) {
+// GetSongBySID route
+func GetSongBySID(response http.ResponseWriter, request *http.Request) {
 	// Set Header
 	response.Header().Set("Content-Type", "application/json")
 
