@@ -22,6 +22,9 @@ data/
 /vendor/
 /Godeps/
 
+.vscode/
+.vscode
+
 .env
 
 # End of https://www.gitignore.io/api/go

@@ -1,117 +1,38 @@
-# Music Go API for church
+# Go API of Music for Church
 
-A music data API build with [Go](https://golang.org/), [Gorilla-Mux](https://github.com/gorilla/mux), [MogoDB Go Driver](https://github.com/mongodb/mongo-go-driver) from [MongoDB](https://www.mongodb.com), deploy on [AWS EC2](https://aws.amazon.com/tw/ec2) and [Ubuntu Linux OS](https://www.ubuntu.com)
+A music data API build with [Go](https://golang.org/), [MongoDB](https://www.mongodb.com), deployed on [Ubuntu](https://www.ubuntu.com) of [AWS EC2](https://aws.amazon.com/tw/ec2).
 
 This API is used by [Caten-Worship](https://caten-worship.herokuapp.com).
 
-## Installation
+For security purpose, the link of API has not released yet.
 
-Change directory to `$GOPATH/src` first:
+## Dependency
 
-```shell
+- [Gorilla-Mux](https://github.com/gorilla/mux)
 
-$ cd $GOPATH/src
+- [MogoDB Go Driver](https://github.com/mongodb/mongo-go-driver)
 
-```
-
-Clone the files,
-
-use HTTPS:
-
-```shell
-
-$ git clone https://github.com/saltchang/songs-go-api-for-caten.git
-
-```
-
-or use SSH:
-
-```shell
-
-$ git clone git@github.com:saltchang/songs-go-api-for-caten.git
-
-```
-
-Go into the folder:
-
-```shell
-
-$ cd songs-go-api-for-caten
-
-```
-
-Install or update the [Dep](https://github.com/golang/dep)
-
-by using [Homebrew](https://brew.sh/)) on macOS:
-
-```shell
-
-$ brew install dep
-$ brew upgrade dep
-
-```
-
-or by using the following command on Linux:
-Your will need to create the GOBIN (`$GOPATH/bin`) directory first.
-
-```shell
-
-$ curl https://raw.githubusercontent.com/golang/dep/master/install.sh | sh
-
-```
-
-Then install the requirements through Dep:
-
-```shell
-
-$ dep ensure -v
-
-```
-
-## Run locally
-
-```shell
-
-$ go run main.go
-
-```
-
-or
-
-```shell
-
-$ go build && ./main.go
-
-```
-
-and then visit the site at [http://localhost:7700](http://localhost:7700)
+I use [Dep](https://github.com/golang/dep) for manage the dependencies.
 
 ## Usage
 
 ### GET
 
 - `"/api/songs"` : get all songs from the database.
-  獲取所有歌曲
 
 - `"/api/songs/sid/{sid}"` : get the song by its `{sid}`.
-  透過指定的 SID 獲取歌曲
 
 - `"/api/songs/search?lang={lang}&c={c}&to={to}&title={title}"` : search songs by multiple arguments.
-  透過複數條件搜尋歌曲
 
-  - `lang` : language - `"Chinese"` and `"Taiwanese"`
-    加入語言參數
+  - `lang` : language - `"Chinese"` and `"Taiwanese"`.
 
-  - `c` : collection - from `1` to `11`
-    加入集數參數
+  - `c` : collection - from `1` to `11`.
 
-  - `title` : title - you can sperate multiple keyword by `"+"`
-    標題關鍵字，支援複數關鍵字，使用"+"來區分關鍵字
+  - `title` : title - the route keywords will be sperated by `"+"`.
 
 ### PUT
 
 - `"/api/songs/sid/{sid}"` : update a song by its `{sid}` from the input document file.
-  更新一首歌的資料
 
 ## Example
 
@@ -120,7 +41,7 @@ and then visit the site at [http://localhost:7700](http://localhost:7700)
 #### Get songs by SID
 
 ```http
-http://localhost:7700/api/songs/sid/1010066
+/api/songs/sid/1010066
 ```
 
 Response:
@@ -144,7 +65,7 @@ Response:
 #### Search songs
 
 ```http
-http://localhost:7700/api/songs/search?lang=Chinese&c=7&to=A&title=來+歡
+/api/songs/search?lang=Chinese&c=7&to=A&title=來+歡
 ```
 
 Response:
@@ -177,10 +98,10 @@ Response:
 #### Update a song
 
 ```http
-http://localhost:7700/api/songs/sid/1010066
+/api/songs/sid/1010066
 ```
 
-body raw:
+Body raw:
 
 ```json
 {
@@ -202,7 +123,7 @@ Response:
 
 ```
 
-the new song data in the db:
+The new song data in the db:
 
 ```json
 [{
