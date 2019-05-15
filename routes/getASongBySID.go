@@ -35,6 +35,7 @@ func GetSongBySID(response http.ResponseWriter, request *http.Request) {
 	// Catch the error if it fails
 	if err != nil {
 		fmt.Printf("Error: %v\n", err)
+		response.WriteHeader(http.StatusNotFound)
 		json.NewEncoder(response).Encode(&models.Song{})
 		cancel()
 		return

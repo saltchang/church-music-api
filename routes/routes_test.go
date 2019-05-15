@@ -1,4 +1,4 @@
-package main
+package routes
 
 import (
 	"fmt"
@@ -7,7 +7,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/saltchang/church-music-api/routes"
+	"github.com/gorilla/mux"
 )
 
 func Test_GetIndex(t *testing.T) {
@@ -17,7 +17,7 @@ func Test_GetIndex(t *testing.T) {
 	}
 
 	responseRecorder := httptest.NewRecorder()
-	handler := http.HandlerFunc(routes.GetIndex)
+	handler := http.HandlerFunc(GetIndex)
 
 	handler.ServeHTTP(responseRecorder, request)
 
@@ -45,7 +45,7 @@ func Test_GetAllSongs(t *testing.T) {
 	}
 
 	responseRecorder := httptest.NewRecorder()
-	handler := http.HandlerFunc(routes.GetAllSongs)
+	handler := http.HandlerFunc(GetAllSongs)
 
 	handler.ServeHTTP(responseRecorder, request)
 
@@ -63,4 +63,51 @@ func Test_GetAllSongs(t *testing.T) {
 	} else if !strings.Contains(resBody, expected2) {
 		t.Fatal("Expected 2 wrong.")
 	}
+}
+
+func Test_GetSongsBySID(t *testing.T) {
+
+	testParams := []struct {
+		sid            string
+		expectedPassed bool
+	}{
+		{"1010066", true},
+		{"2007014", true},
+		{"1011050", true},
+		{"1000000", false},
+		{"", false},
+		{"-3", false},
+		{"a", false},
+		{";", false},
+	}
+
+	db.InitDB()
+
+	for _, testCase := range testParams {
+		routePath := fmt.Sprintf("/api/songs/sid/%s", testCase.sid)
+
+		request, err := http.NewRequest("GET", routePath, nil)
+		if err != nil {
+			t.Fatal(err)
+		}
+
+		responseRecorder := httptest.NewRecorder()
+
+		testRouter := mux.NewRouter()
+
+		testRouter.HandleFunc("/api/songs/sid/{sid}", GetSongBySID).Methods("GET")
+
+		testRouter.ServeHTTP(responseRecorder, request)
+
+		resBody := responseRecorder.Body.String()
+
+		expected := `"sid":"` + testCase.sid
+		if !testCase.expectedPassed && responseRecorder.Code == http.StatusOK {
+			t.Fatal("It sould fails in this case but got OK. Case:", testCase.sid)
+		}
+		if testCase.expectedPassed && !strings.Contains(resBody, expected) {
+			t.Fatalf("Expected: %s, but wrong", testCase.sid)
+		}
+	}
+
 }
