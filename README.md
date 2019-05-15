@@ -12,7 +12,7 @@ For security purpose, the link of API has not released yet.
 
 - [MogoDB Go Driver](https://github.com/mongodb/mongo-go-driver)
 
-I use [Dep](https://github.com/golang/dep) for manage the dependencies.
+I use [Dep](https://github.com/golang/dep) for managing the dependencies.
 
 ## Usage
 
@@ -20,7 +20,7 @@ I use [Dep](https://github.com/golang/dep) for manage the dependencies.
 
 - `"/api/songs"` : get all songs from the database.
 
-- `"/api/songs/sid/{sid}"` : get the song by its `{sid}`.
+- `"/api/songs/sid/{sid}"` : get a song by its `{sid}`.
 
 - `"/api/songs/search?lang={lang}&c={c}&to={to}&title={title}"` : search songs by multiple arguments.
 
@@ -57,7 +57,7 @@ Response:
     "tonality":   "G",
     "year":       "2015",
     "language":   "Chinese",
-    "lyrics":     ["..."]
+    "lyrics":     ...
 }]
 
 ```
@@ -87,7 +87,7 @@ Response:
                      "一切都不會在意，拋開憂慮，煩惱傷心，",
                      "現在只想和你一起，哦，我真歡喜來讚美你。"
                     ],
-                    "..."
+                    ...
     ]
 }]
 
@@ -123,7 +123,7 @@ Response:
 
 ```
 
-The new song data in the db:
+The new data in the db:
 
 ```json
 [{
@@ -136,7 +136,7 @@ The new song data in the db:
     "tonality":   "GGG",
     "year":       "200015",
     "language":   "Japanese",
-    "lyrics":     ["..."]
+    "lyrics":     ...
 }]
 
 ```
