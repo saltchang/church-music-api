@@ -14,7 +14,8 @@ import (
 
 // Database struct
 type Database struct {
-	Songs *mongo.Collection // The collection of songs data in MongoDB
+	Songs  *mongo.Collection // The collection of songs data in MongoDB
+	Tokens *mongo.Collection // The collection of tokens
 }
 
 // InitDB function
@@ -48,6 +49,7 @@ func (db *Database) InitDB() *Database {
 	// Get MongoDB collection "songs" from database "caten-worship" as a
 	// *mongo.Collection type
 	db.Songs = client.Database(env.ENV.SongsDBName).Collection(env.ENV.SongsCollectionName)
+	db.Tokens = client.Database(env.ENV.SongsDBName).Collection(env.ENV.TokensCollectionName)
 
 	cancel()
 

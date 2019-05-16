@@ -14,11 +14,12 @@ var (
 
 // Env struct
 type Env struct {
-	TestVar             string
-	Port                string
-	MongoURI            string
-	SongsDBName         string
-	SongsCollectionName string
+	TestVar              string
+	Port                 string
+	MongoURI             string
+	SongsDBName          string
+	SongsCollectionName  string
+	TokensCollectionName string
 }
 
 func (env *Env) loadENV() *Env {
@@ -32,6 +33,7 @@ func (env *Env) loadENV() *Env {
 	env.MongoURI = os.Getenv("MONGO_URI")
 	env.SongsDBName = os.Getenv("SONGS_DB_NAME")
 	env.SongsCollectionName = os.Getenv("SONGS_COLLECTION_NAME")
+	env.TokensCollectionName = os.Getenv("TOKENS_COLLECTION_NAME")
 
 	return env
 }
