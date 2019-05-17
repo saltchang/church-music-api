@@ -30,6 +30,8 @@ I use [Dep](https://github.com/golang/dep) for managing the dependencies.
 
   - `title` : title - the route keywords will be sperated by `"+"`.
 
+  - `to` : tonality - ex. `"C"`
+
 ### PUT
 
 - `"/api/songs/sid/{sid}"` : update a song by its `{sid}` from the input document file.
@@ -41,7 +43,7 @@ I use [Dep](https://github.com/golang/dep) for managing the dependencies.
 #### Get songs by SID
 
 ```http
-/api/songs/sid/1010066
+http://songs.api.salt.nctu.me:7700/api/songs/sid/1010066
 ```
 
 Response:
@@ -65,7 +67,7 @@ Response:
 #### Search songs
 
 ```http
-/api/songs/search?lang=Chinese&c=7&to=A&title=來+歡
+http://songs.api.salt.nctu.me:7700/api/songs/search?lang=Chinese&c=7&to=A&title=來+歡
 ```
 
 Response:
@@ -98,7 +100,7 @@ Response:
 #### Update a song
 
 ```http
-/api/songs/sid/1010066
+http://songs.api.salt.nctu.me:7700/api/songs/sid/1010066
 ```
 
 Body raw:
