@@ -26,8 +26,6 @@ func (db *Database) InitDB() *Database {
 
 	mongoURI := fmt.Sprintf("%s", env.ENV.MongoURI)
 
-	fmt.Println("host:", mongoURI)
-
 	// Make a context with timeout for 10s for create the client for MongoDB
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	// Create the client at port:27017 (MongoDB default)

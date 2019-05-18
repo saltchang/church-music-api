@@ -1,12 +1,12 @@
 # Go API of Music for Church
 
-A music data API build with [Go](https://golang.org/), [MongoDB](https://www.mongodb.com), deployed on [Ubuntu](https://www.ubuntu.com) of [AWS EC2](https://aws.amazon.com/tw/ec2).
+A music data API build with [Go](https://golang.org/), [MongoDB](https://www.mongodb.com), deployed on [Heroku](https://devcenter.heroku.com).
 
 This API is used by [Caten-Worship](https://caten-worship.herokuapp.com).
 
 For security purpose, the link of API has not released yet.
 
-## Dependency
+## Dependencies
 
 - [Gorilla-Mux](https://github.com/gorilla/mux)
 
@@ -43,7 +43,7 @@ I use [Dep](https://github.com/golang/dep) for managing the dependencies.
 #### Get songs by SID
 
 ```http
-http://songs.api.salt.nctu.me:7700/api/songs/sid/1010066
+https://church-music-api.herokuapp.com/api/songs/sid/1010066
 ```
 
 Response:
@@ -67,7 +67,7 @@ Response:
 #### Search songs
 
 ```http
-http://songs.api.salt.nctu.me:7700/api/songs/search?lang=Chinese&c=7&to=A&title=來+歡
+https://church-music-api.herokuapp.com/api/songs/search?lang=Chinese&c=7&to=A&title=來+歡
 ```
 
 Response:
@@ -100,7 +100,7 @@ Response:
 #### Update a song
 
 ```http
-http://songs.api.salt.nctu.me:7700/api/songs/sid/1010066
+https://church-music-api.herokuapp.com/api/songs/sid/1010066
 ```
 
 Body raw:

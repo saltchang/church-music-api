@@ -27,5 +27,5 @@ func main() {
 
 	// All things are good now, server starts to run
 	fmt.Println("Server starts to run at port" + env.ENV.Port)
-	log.Fatal(http.ListenAndServe(env.ENV.Port, mainRouter))
+	log.Fatal(http.ListenAndServe(":"+env.ENV.Port, mainRouter))
 }
