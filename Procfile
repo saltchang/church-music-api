@@ -1,1 +1,1 @@
-web: ./church-music-api
+web: church-music-api
