@@ -24,18 +24,22 @@ func (db *Database) InitDB() *Database {
 	// MongoDB
 	fmt.Println("Connected to MongoDB...")
 
+	mongoURI := fmt.Sprintf("%s", env.ENV.MongoURI)
+
+	fmt.Println("host:", mongoURI)
+
 	// Make a context with timeout for 10s for create the client for MongoDB
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	// Create the client at port:27017 (MongoDB default)
-	client, err := mongo.Connect(ctx, options.Client().ApplyURI(env.ENV.MongoURI))
+	client, err := mongo.Connect(ctx, options.Client().ApplyURI(mongoURI))
 	// If it fails...
 	if err != nil {
 		cancel()
 		log.Fatal(err)
 	}
 
-	// Make a context with timeout for 2s for connect to MongoDB
-	ctx, cancel = context.WithTimeout(context.Background(), 2*time.Second)
+	// Make a context with timeout for 10s for connect to MongoDB
+	ctx, cancel = context.WithTimeout(context.Background(), 10*time.Second)
 	// Try to connect to MongoDB and catch the error if it fails
 	err = client.Ping(ctx, readpref.Primary())
 	if err != nil {
