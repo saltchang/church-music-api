@@ -27,4 +27,6 @@ data/
 
 .env
 
+church-music-api
+
 # End of https://www.gitignore.io/api/go
