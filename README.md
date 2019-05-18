@@ -4,7 +4,7 @@ A music data API build with [Go](https://golang.org/), [MongoDB](https://www.mon
 
 This API is used by [Caten-Worship](https://caten-worship.herokuapp.com).
 
-For security purpose, the link of API has not released yet.
+For security, only GET method open to normal users.
 
 ## Dependencies
 
@@ -33,6 +33,8 @@ I use [Dep](https://github.com/golang/dep) for managing the dependencies.
   - `to` : tonality - ex. `"C"`
 
 ### PUT
+
+    **Need token for authority**
 
 - `"/api/songs/sid/{sid}"` : update a song by its `{sid}` from the input document file.
 
