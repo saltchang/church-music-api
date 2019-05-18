@@ -40,7 +40,7 @@ func (env *Env) loadENV() *Env {
 	env.SongsCollectionName = os.Getenv("SONGS_COLLECTION_NAME")
 	env.TokensCollectionName = os.Getenv("TOKENS_COLLECTION_NAME")
 
-	fmt.Println("load port:", env.Port)
+	fmt.Println("Port set:", env.Port)
 
 	return env
 }

@@ -26,6 +26,7 @@ func main() {
 	mainRouter := r.InitRouters()
 
 	// All things are good now, server starts to run
-	fmt.Println("Server starts to run at port" + env.ENV.Port)
+	fmt.Println("Evironment: ", env.ENV.AppConfig)
+	fmt.Println("Server starts to run at port: " + env.ENV.Port)
 	log.Fatal(http.ListenAndServe(":"+env.ENV.Port, mainRouter))
 }
