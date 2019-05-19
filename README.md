@@ -12,7 +12,7 @@ For security, only GET method open to normal users.
 
 - [MogoDB Go Driver](https://github.com/mongodb/mongo-go-driver)
 
-I use [Dep](https://github.com/golang/dep) for managing the dependencies.
+[Dep](https://github.com/golang/dep) is used for managing the dependencies.
 
 ## Usage
 
@@ -34,9 +34,9 @@ I use [Dep](https://github.com/golang/dep) for managing the dependencies.
 
 ### PUT
 
-    **Need token for authority**
+- **Need token for authority**
 
-- `"/api/songs/sid/{sid}"` : update a song by its `{sid}` from the input document file.
+- `"/api/songs/sid/{sid}"` : update a song by its `{sid}` from the input body raw.
 
 ## Example
 

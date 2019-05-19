@@ -23,11 +23,11 @@ func GetSongBySearch(response http.ResponseWriter, request *http.Request) {
 
 	// Decode the params as args
 	// Song.Language arg
-	lang := params["lang"]
+	lang := strings.Replace(params["lang"], " ", "", -1)
 	// Song.NumC arg
-	numc := params["c"]
+	numc := strings.Replace(params["c"], " ", "", -1)
 	// Song.Tonality arg
-	tona := params["to"]
+	tona := strings.Replace(params["to"], " ", "", -1)
 	// Song.Title arg
 	titleQ := params["title"]
 	// Split the arg by space, it was displayed as "+"
@@ -59,8 +59,9 @@ func GetSongBySearch(response http.ResponseWriter, request *http.Request) {
 
 	// If she has no any key, then she shall be saved by me, Hero of the World.
 	if len(filterSlice) == 0 {
+		response.WriteHeader(http.StatusBadRequest)
 		json.NewEncoder(response).Encode(bson.M{
-			"error_code": 5,
+			"error_code": 1,
 			"message":    "Don't play with me",
 		})
 		return
@@ -112,8 +113,9 @@ func GetSongBySearch(response http.ResponseWriter, request *http.Request) {
 	}
 
 	if len(list) == 0 {
+		response.WriteHeader(http.StatusNotFound)
 		json.NewEncoder(response).Encode(bson.M{
-			"error_code": 4,
+			"error_code": 2,
 			"message":    "No result found.",
 		})
 		cancel()
