@@ -20,7 +20,7 @@ For security, only GET method open to normal users.
 
 - `"/api/songs"` : get all songs from the database.
 
-- `"/api/songs/sid/{sid}"` : get a song by its `{sid}`.
+- `"/api/songs/sid/{sid0+sid1+sid2+...}"` : get songs by multiple `sid`, splited all `sid` by `"+"`.
 
 - `"/api/songs/search?lang={lang}&c={c}&to={to}&title={title}"` : search songs by multiple arguments.
 
@@ -28,7 +28,7 @@ For security, only GET method open to normal users.
 
   - `c` : collection - from `1` to `11`.
 
-  - `title` : title - the route keywords will be sperated by `"+"`.
+  - `title` : title - the route keywords are splited by `"+"`.
 
   - `to` : tonality - ex. `"C"`
 
@@ -42,17 +42,16 @@ For security, only GET method open to normal users.
 
 ### ex. GET
 
-#### Get songs by SID
+#### Get songs by one or multiple SIDs
 
 ```http
-https://church-music-api.herokuapp.com/api/songs/sid/1010066
+https://church-music-api.herokuapp.com/api/songs/sid/1010066+1010050+1003001
 ```
 
 Response:
 
 ```json
 [{
-    "_id":        "5cceafa94a38b40395f5adc8",
     "sid":        "1010066",
     "num_c":      "10",
     "num_i":      "66",
@@ -61,12 +60,28 @@ Response:
     "tonality":   "G",
     "year":       "2015",
     "language":   "Chinese",
-    "lyrics":     ...
+    ..
+},
+{
+    "sid":        "1010050",
+    "num_c":      "10",
+    "num_i":      "50",
+    "title":      "當我謙卑來到主前",
+    "tonality":   "G",
+    ...
+},
+{
+    "sid":        "1003001",
+    "num_c":      "3",
+    "num_i":      "1",
+    "title":      "主愛有多少",
+    "tonality":   "Eb",
+    ...
 }]
 
 ```
 
-#### Search songs
+#### Search songs by multiple arguments
 
 ```http
 https://church-music-api.herokuapp.com/api/songs/search?lang=Chinese&c=7&to=A&title=來+歡
@@ -76,7 +91,6 @@ Response:
 
 ```json
 [{
-    "_id":        "5cceafa94a38b40395f5acc0",
     "title":      "我真歡喜來讚美你",
     "num_c":      "7",
     "num_i":      "71",
@@ -99,7 +113,7 @@ Response:
 
 ### ex. PUT
 
-#### Update a song
+#### Update a song by specific SID
 
 ```http
 https://church-music-api.herokuapp.com/api/songs/sid/1010066
@@ -131,7 +145,6 @@ The new data in the db:
 
 ```json
 [{
-    "_id":        "5cceafa94a38b40395f5adc8",
     "sid":        "1010066",
     "num_c":      "10",
     "num_i":      "66",

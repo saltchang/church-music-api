@@ -22,55 +22,57 @@ func GetSongBySID(response http.ResponseWriter, request *http.Request) {
 	// Get params from router
 	params := mux.Vars(request)
 
-	s := strings.Split(params["s"], " ")
+	// Split the sid params to array
+	s := strings.Split(params["s"], "+")
 
-	// filterSlice := []bson.M{}
+	// Create a list of result of FindOne function
+	rlist := []*mongo.SingleResult{}
 
 	// Make a context with timeout for 5s for find the expected song
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 
-	rlist := []*mongo.SingleResult{}
-
+	// Range the array of sid and find the result
 	for _, sid := range s {
+		// For each sid, make the specific filter
 		filter := bson.M{"sid": sid}
+		// Find the song and add it into the list of result
 		rlist = append(rlist, db.Songs.FindOne(ctx, filter))
 	}
 
-	// Defined the type of result as a Song struct
+	// For debugging, enable this code to see if the number of sid is correct
+	// fmt.Println(len(rlist))
+
+	// Create the result for store the array of the model of song (pointer)
 	result := []*models.Song{}
 
-	for _, r := range rlist {
+	// For each searching result in rlist...
+	for index, r := range rlist {
+		// Get the address of a new void single song
 		single := &models.Song{}
 
+		// Decode the result to single
 		err := r.Decode(single)
 		if err != nil {
-			fmt.Printf("Error: %v\n", err)
+			// If something goes wrong(ex. song not found)...
 			response.WriteHeader(http.StatusNotFound)
-			json.NewEncoder(response).Encode(&models.Song{})
+			json.NewEncoder(response).Encode(bson.M{
+				"error_code": 1,
+				"message":    fmt.Sprintf("SID[%d]: no result found.", index),
+			})
 			cancel()
 			return
 		}
 
+		// If everything is OK, add the found song into the result list
 		result = append(result, single)
-
-		// If the song found, encode it to json type
-		// and return the encoded result as response
 
 	}
 
+	// Encode result list to json type, and return it as response
 	json.NewEncoder(response).Encode(&result)
 
+	// Done cancel the context and return
 	cancel()
 	return
-
-	// The filter that use to find the song by SID
-	// filter := bson.M{"sid": params["sid"]}
-
-	// Find a song by SID (defined by the filter)
-	// and decode to the result (which is a Song struct type)
-	// err := db.Songs.FindOne(ctx, filter).Decode(&result)
-	// Catch the error if it fails
-
-	// All things done, cancel the context
 
 }
