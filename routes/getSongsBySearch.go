@@ -14,8 +14,8 @@ import (
 	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
-// GetRandomSongs route
-func GetRandomSongs(response http.ResponseWriter, request *http.Request) {
+// GetSongBySearch route
+func GetSongBySearch(response http.ResponseWriter, request *http.Request) {
 	// Set Header
 	response.Header().Set("Content-Type", "application/json")
 	// Get params from router
