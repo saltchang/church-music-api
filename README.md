@@ -32,6 +32,8 @@ For security, only GET method open to normal users.
 
   - `to` : tonality - ex. `"C"`
 
+- `"/api/songs/random/{r}"` : get random songs by given a amount `r`.
+
 ### PUT
 
 - **Need token for authority**

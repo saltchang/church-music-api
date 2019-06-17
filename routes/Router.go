@@ -30,6 +30,9 @@ func (router *Routers) InitRouters() *mux.Router {
 	// Route: Get a song by searching title
 	mainRouter.HandleFunc("/api/songs/search", GetSongBySearch).Queries("title", "{title}", "lang", "{lang}", "c", "{c}", "to", "{to}").Methods("GET")
 
+	// Route: Get random songs by given amount
+	mainRouter.HandleFunc("/api/songs/random/{r}", GetSongBySearch).Methods("GET")
+
 	// Route: Create a song
 	mainRouter.HandleFunc("/api/songs", CreateSong).Methods("POST")
 
