@@ -42,5 +42,8 @@ func (router *Routers) InitRouters() *mux.Router {
 	// Route: Delete a song by its SID
 	mainRouter.HandleFunc("/api/songs/{sid}", DeleteSong).Methods("DELETE")
 
+	// Favicon
+	mainRouter.HandleFunc("/favicon.ico", GetFavicon).Methods("GET")
+
 	return mainRouter
 }
