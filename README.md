@@ -2,7 +2,7 @@
 
 A music data API build with [Go](https://golang.org/), [MongoDB](https://www.mongodb.com), deployed on [Heroku](https://devcenter.heroku.com).
 
-This API is used by [Caten-Worship](https://caten-worship.herokuapp.com).
+This API is used by [Caten-Music](https://caten-music.herokuapp.com).
 
 For security, only GET method open to normal users.
 
