@@ -22,7 +22,7 @@ For security, only GET method open to normal users.
 
 - `"/api/songs/sid/{sid0+sid1+sid2+...}"` : get songs by multiple `sid`, splited all `sid` by `"+"`.
 
-- `"/api/songs/search?lang={lang}&c={c}&to={to}&title={title}"` : search songs by multiple arguments.
+- `"/api/songs/search?lang={lang}&c={c}&to={to}&title={title}&lyrics={lyrics}&test=0"` : search songs by multiple arguments.
 
   - `lang` : language - `"Chinese"` and `"Taiwanese"`.
 
@@ -31,6 +31,9 @@ For security, only GET method open to normal users.
   - `title` : title - the route keywords are splited by `"+"`.
 
   - `to` : tonality - ex. `"C"`
+
+  - `lyrics` : lyrics - the route keywords are splited by `"+"`.
+  - `test` : test mode - for development, normal user please set it to `0`.
 
 - `"/api/songs/random/{r}"` : get random songs by given a amount `r`.
 
@@ -86,7 +89,7 @@ Response:
 #### Search songs by multiple arguments
 
 ```http
-https://church-music-api.herokuapp.com/api/songs/search?lang=Chinese&c=7&to=A&title=來+歡
+https://church-music-api.herokuapp.com/api/songs/search?lang=Chinese&c=7&to=A&title=來+歡&lyrics=眼睛+傷心&test=0
 ```
 
 Response:

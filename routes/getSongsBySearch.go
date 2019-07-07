@@ -10,7 +10,7 @@ import (
 
 	"github.com/gorilla/mux"
 	"go.mongodb.org/mongo-driver/bson"
-	"go.mongodb.org/mongo-driver/bson/primitive"
+	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
@@ -22,6 +22,13 @@ func GetSongBySearch(response http.ResponseWriter, request *http.Request) {
 	params := mux.Vars(request)
 
 	// Decode the params as args
+
+	// If Testing mode
+	TestingMode := false
+	if params["test"] == "1" {
+		TestingMode = true
+	}
+
 	// Song.Language arg
 	lang := strings.Replace(params["lang"], " ", "", -1)
 	// Song.NumC arg
@@ -32,6 +39,10 @@ func GetSongBySearch(response http.ResponseWriter, request *http.Request) {
 	titleQ := params["title"]
 	// Split the arg by space, it was displayed as "+"
 	titles := strings.Split(titleQ, " ")
+	// Song.Lyrics arg
+	lyricsQ := params["lyrics"]
+	// Split the arg by space, it was displayed as "+"
+	lyrics := strings.Split(lyricsQ, " ")
 
 	// Make a slice of bson.M prepared to jonin in the filter
 	filterSlice := []bson.M{}
@@ -53,7 +64,15 @@ func GetSongBySearch(response http.ResponseWriter, request *http.Request) {
 	for _, s := range titles {
 		// If the title arg is not empty
 		if s != "" {
-			filterSlice = append(filterSlice, bson.M{"title": primitive.Regex{Pattern: s, Options: ""}})
+			filterSlice = append(filterSlice, bson.M{"title": bson.M{"$regex": s}})
+		}
+	}
+
+	// Add all the keyword args of lyrics into the filter slice
+	for _, lyric := range lyrics {
+		// If the title arg is not empty
+		if lyric != "" {
+			filterSlice = append(filterSlice, bson.M{"lyrics": bson.M{"$regex": lyric}})
 		}
 	}
 
@@ -75,8 +94,16 @@ func GetSongBySearch(response http.ResponseWriter, request *http.Request) {
 
 	// Make a context with timeout for 30s, for listing songs
 	ctx, cancel := context.WithTimeout(context.Background(), 30*time.Second)
+
 	// Create a cursor to search the songs by all args
-	cur, err := db.Songs.Find(ctx, filter, &opts)
+	var cur *mongo.Cursor
+	var err error
+	if TestingMode {
+		cur, err = db.SongsForTesting.Find(ctx, filter, &opts)
+	} else {
+		cur, err = db.Songs.Find(ctx, filter, &opts)
+	}
+
 	if err != nil {
 		fmt.Printf("Error: %v\n", err)
 		cancel()
