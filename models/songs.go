@@ -16,7 +16,7 @@ type Song struct {
 	Tonality      string             `json:"tonality" bson:"tonality"`
 	Year          string             `json:"year" bson:"year"`
 	Language      string             `json:"language" bson:"language"`
-	Lyrics        [][]string         `json:"lyrics" bson:"lyrics"`
+	Lyrics        []string           `json:"lyrics" bson:"lyrics"`
 	Tempo         string             `json:"tempo" bson:"tempo"`
 	TimeSignature string             `json:"time_signature" bson:"time_signature"`
 	Publisher     string             `json:"publisher" bson:"publisher"`
@@ -37,22 +37,16 @@ func DummySongs() {
 			Tonality: "G",
 			Year:     "",
 			Language: "Chinese",
-			Lyrics: [][]string{
-				[]string{
-					"p",
-					"我心何等渴望，來尊崇你，主，我用全心來敬拜你，",
-					"凡在我裡面的，都讚美你，我一切所愛，在於你。",
-				},
-				[]string{
-					"p",
-					"主，我獻上我心，我獻上我的靈，",
-					"我活著為了你，我的每個氣息，",
-					"生命中的每個時刻，主，成全你旨意。",
-				},
-				[]string{
-					"p",
-					"獻上我心，獻上我靈。",
-				},
+			Lyrics: []string{
+				"p",
+				"我心何等渴望，來尊崇你，主，我用全心來敬拜你，",
+				"凡在我裡面的，都讚美你，我一切所愛，在於你。",
+				"p",
+				"主，我獻上我心，我獻上我的靈，",
+				"我活著為了你，我的每個氣息，",
+				"生命中的每個時刻，主，成全你旨意。",
+				"p",
+				"獻上我心，獻上我靈。",
 			},
 			Tempo:         "",
 			TimeSignature: "",
@@ -72,24 +66,18 @@ func DummySongs() {
 			Tonality: "G",
 			Year:     "",
 			Language: "Chinese",
-			Lyrics: [][]string{
-				[]string{
-					"v",
-					"哈利路亞，哈利路亞，前來敬拜永遠的君王，",
-					"哈利路亞，哈利路亞，大聲宣告主榮耀降臨。",
-				},
-				[]string{
-					"c",
-					"榮耀尊貴，能力權柄歸於你，",
-					"你是我的救主，我的救贖，",
-					"榮耀尊貴，能力權柄歸於你，",
-					"你是配得，你是配得，你是配得我的敬拜。",
-				},
-				[]string{
-					"b",
-					"榮耀尊貴，美麗無比，神的兒子，耶穌我的主，",
-					"榮耀尊貴，美麗無比，神的兒子，耶穌我的主。",
-				},
+			Lyrics: []string{
+				"v",
+				"哈利路亞，哈利路亞，前來敬拜永遠的君王，",
+				"哈利路亞，哈利路亞，大聲宣告主榮耀降臨。",
+				"c",
+				"榮耀尊貴，能力權柄歸於你，",
+				"你是我的救主，我的救贖，",
+				"榮耀尊貴，能力權柄歸於你，",
+				"你是配得，你是配得，你是配得我的敬拜。",
+				"b",
+				"榮耀尊貴，美麗無比，神的兒子，耶穌我的主，",
+				"榮耀尊貴，美麗無比，神的兒子，耶穌我的主。",
 			},
 			Tempo:         "",
 			TimeSignature: "",
