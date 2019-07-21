@@ -84,6 +84,8 @@ func UpdateSong(response http.ResponseWriter, request *http.Request) {
 		return
 	}
 
+	delete(newData, "token")
+
 	// Make a update interface
 	update := bson.M{"$set": newData}
 
