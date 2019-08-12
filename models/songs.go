@@ -7,22 +7,27 @@ var Songs []Song // Songs data model
 
 // Song Struct: This is the songs data model.
 type Song struct {
-	ID            primitive.ObjectID `json:"_id,omitempty" bson:"_id,omitempty"`
-	SID           string             `json:"sid" bson:"sid"`
-	NumC          string             `json:"num_c" bson:"num_c"`
-	NumI          string             `json:"num_i" bson:"num_i"`
-	Title         string             `json:"title" bson:"title"`
-	Album         string             `json:"album" bson:"album"`
-	Tonality      string             `json:"tonality" bson:"tonality"`
-	Year          string             `json:"year" bson:"year"`
-	Language      string             `json:"language" bson:"language"`
-	Lyrics        []string           `json:"lyrics" bson:"lyrics"`
-	Tempo         string             `json:"tempo" bson:"tempo"`
-	TimeSignature string             `json:"time_signature" bson:"time_signature"`
-	Publisher     string             `json:"publisher" bson:"publisher"`
-	Lyricist      string             `json:"lyricist" bson:"lyricist"`
-	Composer      string             `json:"composer" bson:"composer"`
-	Translator    string             `json:"translator" bson:"translator"`
+	ID                primitive.ObjectID `json:"_id,omitempty" bson:"_id,omitempty"`
+	SID               string             `json:"sid" bson:"sid"`
+	NumC              string             `json:"num_c" bson:"num_c"`
+	NumI              string             `json:"num_i" bson:"num_i"`
+	Title             string             `json:"title" bson:"title"`
+	TitleEnglish      string             `json:"title_english" bson:"title_english"`
+	TitleOriginal     string             `json:"title_original" bson:"title_original"`
+	Album             string             `json:"album" bson:"album"`
+	Tonality          string             `json:"tonality" bson:"tonality"`
+	Year              string             `json:"year" bson:"year"`
+	Language          string             `json:"language" bson:"language"`
+	Lyrics            []string           `json:"lyrics" bson:"lyrics"`
+	Tempo             string             `json:"tempo" bson:"tempo"`
+	TimeSignature     string             `json:"time_signature" bson:"time_signature"`
+	Publisher         string             `json:"publisher" bson:"publisher"`
+	PublisherOriginal string             `json:"publisher_original" bson:"publisher_original"`
+
+	Lyricist   string `json:"lyricist" bson:"lyricist"`
+	Composer   string `json:"composer" bson:"composer"`
+	Translator string `json:"translator" bson:"translator"`
+	Scripture  string `json:"scripture" bson:"scripture"`
 }
 
 // DummySongs func: Make the dummy songs data for development.
