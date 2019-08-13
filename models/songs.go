@@ -12,7 +12,7 @@ type Song struct {
 	NumC              string             `json:"num_c" bson:"num_c"`
 	NumI              string             `json:"num_i" bson:"num_i"`
 	Title             string             `json:"title" bson:"title"`
-	TitleOriginal     string             `json:"title_original" bson:"title_original"`
+	TitleOriginal     []string           `json:"title_original" bson:"title_original"`
 	Album             string             `json:"album" bson:"album"`
 	Tonality          string             `json:"tonality" bson:"tonality"`
 	Year              string             `json:"year" bson:"year"`
