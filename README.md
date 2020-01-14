@@ -14,6 +14,24 @@ For security, only GET method open to normal users.
 
 [Dep](https://github.com/golang/dep) is used for managing the dependencies.
 
+## Installation
+
+1. Clone repository to your `$GOPATH/src`
+
+2. Install the requirements
+
+```bash
+
+dep ensure
+```
+
+3. Run the service
+
+```bash
+
+go run main.go
+```
+
 ## Usage
 
 ### GET
