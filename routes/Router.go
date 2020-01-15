@@ -40,7 +40,7 @@ func (router *Routers) InitRouters() *mux.Router {
 	mainRouter.HandleFunc("/api/songs/sid/{sid}", UpdateSong).Methods("PUT")
 
 	// Route: Delete a song by its SID
-	mainRouter.HandleFunc("/api/songs/{sid}", DeleteSong).Methods("DELETE")
+	mainRouter.HandleFunc("/api/songs/sid/{sid}", DeleteSong).Methods("DELETE")
 
 	// Favicon
 	mainRouter.HandleFunc("/favicon.ico", GetFavicon).Methods("GET")
