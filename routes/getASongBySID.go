@@ -56,8 +56,8 @@ func GetSongBySID(response http.ResponseWriter, request *http.Request) {
 			// If something goes wrong(ex. song not found)...
 			response.WriteHeader(http.StatusNotFound)
 			json.NewEncoder(response).Encode(bson.M{
-				"error_code": 1,
-				"message":    fmt.Sprintf("SID[%d]: no result found.", index),
+				"Code":    1600,
+				"Message": fmt.Sprintf("SID[%d]: no result found.", index),
 			})
 			cancel()
 			return

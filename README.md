@@ -20,17 +20,17 @@ For security, only GET method open to normal users.
 
 2. Install the requirements
 
-```bash
+    ```bash
 
-dep ensure
-```
+    dep ensure
+    ```
 
 3. Run the service
 
-```bash
+    ```bash
 
-go run main.go
-```
+    go run main.go
+    ```
 
 ## Usage
 
@@ -178,3 +178,19 @@ The new data in the db:
 }]
 
 ```
+
+## Return Code
+
+- 1000: Successful
+- 1100: Render token error
+- 1110: Token error
+- 1120: Token has no authority
+- 1200: Request body raw error
+- 1300: Wrong information in request data
+- 1400: Data already existed in DB, cannot create the same one
+- 1410: Created song error by unknown reason
+- 1510: Deleted song error by unknown reason
+- 1600: No result found in DB
+- 1700: Format error
+- 1800: Wrong query data
+- 1900: Updated song error by unknown reason

@@ -152,8 +152,8 @@ func GetSongBySearch(response http.ResponseWriter, request *http.Request) {
 	if len(filterSlice) == 0 {
 		response.WriteHeader(http.StatusBadRequest)
 		json.NewEncoder(response).Encode(bson.M{
-			"error_code": 1,
-			"message":    "Don't play with me",
+			"Code":    1800,
+			"Message": "Don't play with me",
 		})
 		return
 	}
@@ -178,6 +178,7 @@ func GetSongBySearch(response http.ResponseWriter, request *http.Request) {
 
 	if err != nil {
 		fmt.Printf("Error: %v\n", err)
+		fmt.Println("Broken during searching...")
 		cancel()
 		return
 	}
@@ -214,8 +215,8 @@ func GetSongBySearch(response http.ResponseWriter, request *http.Request) {
 	if len(list) == 0 {
 		response.WriteHeader(http.StatusNotFound)
 		json.NewEncoder(response).Encode(bson.M{
-			"error_code": 2,
-			"message":    "No result found.",
+			"Code":    1600,
+			"Message": "No result found.",
 		})
 		cancel()
 		return

@@ -24,8 +24,8 @@ func GetRandomSong(response http.ResponseWriter, request *http.Request) {
 	if err != nil {
 		response.WriteHeader(http.StatusNotFound)
 		json.NewEncoder(response).Encode(bson.M{
-			"error_code": 1,
-			"message":    "Wrong Random Number",
+			"Code":    1700,
+			"Message": "Wrong Random Number",
 		})
 		return
 	}
@@ -75,8 +75,8 @@ func GetRandomSong(response http.ResponseWriter, request *http.Request) {
 	if len(list) == 0 {
 		response.WriteHeader(http.StatusNotFound)
 		json.NewEncoder(response).Encode(bson.M{
-			"error_code": 2,
-			"message":    "No result found.",
+			"Code":    1600,
+			"Message": "No result found.",
 		})
 		cancel()
 		return

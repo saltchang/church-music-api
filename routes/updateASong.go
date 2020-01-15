@@ -34,8 +34,8 @@ func UpdateSong(response http.ResponseWriter, request *http.Request) {
 	if err != nil {
 		fmt.Printf("Error: %v\n", err)
 		json.NewEncoder(response).Encode(bson.M{
-			"error_code": 1,
-			"message":    "Don't play with me",
+			"Code":    1110,
+			"Message": "Don't play with me",
 		})
 		return
 	}
@@ -48,8 +48,8 @@ func UpdateSong(response http.ResponseWriter, request *http.Request) {
 	if err != nil {
 		fmt.Printf("Error: %v\n", err)
 		json.NewEncoder(response).Encode(bson.M{
-			"error_code": 2,
-			"message":    "Don't play with me",
+			"Code":    1200,
+			"Message": "Don't play with me",
 		})
 		return
 	}
@@ -66,8 +66,8 @@ func UpdateSong(response http.ResponseWriter, request *http.Request) {
 	if err != nil {
 		fmt.Printf("Error: %v\n", err)
 		json.NewEncoder(response).Encode(bson.M{
-			"error_code": 3,
-			"message":    "Not correct access token",
+			"Code":    1110,
+			"Message": "Not correct access token",
 		})
 		cancel()
 		return
@@ -77,8 +77,8 @@ func UpdateSong(response http.ResponseWriter, request *http.Request) {
 	if token.Autho != "MOSTHIGHADMIN" {
 		fmt.Printf("Error: %v\n", err)
 		json.NewEncoder(response).Encode(bson.M{
-			"error_code": 4,
-			"message":    "This token has no authority",
+			"Code":    1120,
+			"Message": "This token has no authority",
 		})
 		cancel()
 		return
@@ -97,10 +97,11 @@ func UpdateSong(response http.ResponseWriter, request *http.Request) {
 	err = db.Songs.FindOne(ctx, filter).Decode(&result)
 	// Catch the error if it fails
 	if err != nil {
+		fmt.Printf("Error during finding song.\n")
 		fmt.Printf("Error: %v\n", err)
 		json.NewEncoder(response).Encode(bson.M{
-			"error_code": 5,
-			"message":    "No result found.",
+			"Code":    1600,
+			"Message": "No result found.",
 		})
 		cancel()
 		return
@@ -111,8 +112,8 @@ func UpdateSong(response http.ResponseWriter, request *http.Request) {
 	if err != nil {
 		fmt.Printf("Error: %v\n", err)
 		json.NewEncoder(response).Encode(bson.M{
-			"error_code": 6,
-			"message":    "Something Wrong",
+			"Code":    1900,
+			"Message": "Something Wrong",
 		})
 		cancel()
 		return
