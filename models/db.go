@@ -51,8 +51,18 @@ func (db *Database) InitDB() *Database {
 
 	// Get MongoDB collection "songs" from database "caten-worship" as a
 	// *mongo.Collection type
-	db.Songs = client.Database(env.ENV.SongsDBName).Collection(env.ENV.SongsCollectionName)
-	db.SongsForTesting = client.Database(env.ENV.SongsDBName).Collection(env.ENV.SongsCollectionNameForTesting)
+
+	if env.ENV.AppEnv == "Development" {
+		db.Songs = client.Database(env.ENV.SongsDBName).Collection(env.ENV.SongsCollectionNameForDev)
+		fmt.Println("DB environment: SongsCollectionNameForDev")
+	} else if env.ENV.AppEnv == "Production" {
+		db.Songs = client.Database(env.ENV.SongsDBName).Collection(env.ENV.SongsCollectionName)
+		fmt.Println("DB environment: SongsCollectionName")
+	} else {
+		fmt.Println("Error: AppEnv not definded.")
+	}
+
+	db.SongsForTesting = client.Database(env.ENV.SongsDBName).Collection(env.ENV.SongsCollectionNameForDev)
 	db.Tokens = client.Database(env.ENV.SongsDBName).Collection(env.ENV.TokensCollectionName)
 
 	cancel()
