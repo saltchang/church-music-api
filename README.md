@@ -1,10 +1,8 @@
-# Go API of Music for Church
+# [Church Music API](https://church-music-api.herokuapp.com/)
 
-A music data API build with [Go](https://golang.org/), [MongoDB](https://www.mongodb.com), deployed on [Heroku](https://devcenter.heroku.com).
+A song data API build with [Go](https://golang.org) and [MongoDB](https://www.mongodb.com).
 
-This API is used by [Caten-Music](https://caten-music.herokuapp.com).
-
-For security, only GET method open to normal users.
+This API is used by [Caten-Music](https://music.caten-church.org).
 
 ## Dependencies
 
@@ -12,23 +10,25 @@ For security, only GET method open to normal users.
 
 - [MogoDB Go Driver](https://github.com/mongodb/mongo-go-driver)
 
-[Dep](https://github.com/golang/dep) is used for managing the dependencies.
-
 ## Installation
 
 1. Clone repository to your `$GOPATH/src`
+2. Set your local environment variables in `.env`.  
+   You can quickly use the example to build one:
 
-2. Install the requirements
+   ```bash
+   cp .env.example .env
+   ```
+
+3. Install the dependencies
 
     ```bash
-
-    dep ensure
+    go get
     ```
 
-3. Run the service
+4. Run the service
 
     ```bash
-
     go run main.go
     ```
 
@@ -61,6 +61,14 @@ For security, only GET method open to normal users.
 
 - `"/api/songs/sid/{sid}"` : update a song by its `{sid}` from the input body raw.
 
+## POST
+
+Document todo...
+
+## DELETE
+
+Document todo...
+
 ## Example
 
 ### ex. GET
@@ -83,7 +91,6 @@ Response:
     "tonality":   "G",
     "year":       "2015",
     "language":   "Chinese",
-    ..
 },
 {
     "sid":        "1010050",
@@ -91,7 +98,6 @@ Response:
     "num_i":      "50",
     "title":      "當我謙卑來到主前",
     "tonality":   "G",
-    ...
 },
 {
     "sid":        "1003001",
@@ -99,9 +105,7 @@ Response:
     "num_i":      "1",
     "title":      "主愛有多少",
     "tonality":   "Eb",
-    ...
 }]
-
 ```
 
 #### Search songs by multiple arguments
@@ -126,7 +130,6 @@ Response:
                     "睜開眼睛，感覺好熟悉，在你面前，",
                     "一切都不會在意，拋開憂慮，煩惱傷心，",
                     "現在只想和你一起，哦，我真歡喜來讚美你。",
-                    ...
     ]
 }]
 
