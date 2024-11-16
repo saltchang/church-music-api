@@ -21,6 +21,9 @@ func (router *Routers) InitRouters() *mux.Router {
 	// Route: Home
 	mainRouter.HandleFunc("/", GetIndex).Methods("GET")
 
+	// Route: Health
+	mainRouter.HandleFunc("/health", GetHealth).Methods("GET")
+
 	// Route: Get all songs
 	mainRouter.HandleFunc("/api/songs", GetAllSongs).Methods("GET")
 

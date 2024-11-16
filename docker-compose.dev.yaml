@@ -1,0 +1,55 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+      # Removed the target specification since we're using the default stage
+    ports:
+      - "7000:7000"
+      - "7001:7001"
+    environment:
+      - ENV_FILE=.env
+      - GO_ENV=development
+      - CGO_ENABLED=1
+      - GOOS=linux
+      - GOARCH=amd64
+    volumes:
+      - .:/app
+      - go-modules:/go/pkg/mod # Cache Go modules
+    networks:
+      - app-network
+    # depends_on:
+    #   mongodb:
+    #     condition: service_healthy
+    deploy:
+      restart_policy:
+        condition: on-failure
+    security_opt:
+      - no-new-privileges:true
+
+  # mongodb:
+  #   image: mongo:7-jammy
+  #   ports:
+  #     - "27017:27017"
+  #   volumes:
+  #     - mongodb_data:/data/db
+  #   networks:
+  #     - app-network
+  #   healthcheck:
+  #     test: ["CMD", "mongosh", "--eval", "db.adminCommand('ping')"]
+  #     interval: 10s
+  #     timeout: 5s
+  #     retries: 3
+  #     start_period: 5s
+  #   environment:
+  #     - MONGODB_INITDB_ROOT_USERNAME=admin
+  #     - MONGODB_INITDB_ROOT_PASSWORD=secret
+
+networks:
+  app-network:
+    driver: bridge
+
+volumes:
+  # mongodb_data:
+  #   driver: local
+  go-modules: # Persistent volume for Go modules cache

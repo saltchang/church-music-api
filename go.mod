@@ -1,19 +1,22 @@
 module github.com/saltchang/church-music-api
 
-go 1.16
+go 1.23
 
 require (
-	github.com/go-stack/stack v1.8.0 // indirect
-	github.com/golang/snappy v0.0.1 // indirect
-	github.com/google/go-cmp v0.5.4 // indirect
-	github.com/gorilla/mux v1.7.1
-	github.com/joho/godotenv v1.3.0
-	github.com/stretchr/testify v1.7.0 // indirect
-	github.com/tidwall/pretty v1.0.2 // indirect
-	github.com/xdg/scram v0.0.0-20180814205039-7eeb5667e42c // indirect
-	github.com/xdg/stringprep v1.0.1-0.20180714160509-73f8eece6fdc // indirect
-	go.mongodb.org/mongo-driver v1.0.1
-	golang.org/x/crypto v0.0.0-20190513172903-22d7a77e9e5f // indirect
-	golang.org/x/sync v0.0.0-20190423024810-112230192c58 // indirect
-	golang.org/x/text v0.3.2 // indirect
+	github.com/gorilla/mux v1.8.1
+	github.com/joho/godotenv v1.5.1
+	go.mongodb.org/mongo-driver v1.13.1
+)
+
+require (
+	github.com/golang/snappy v0.0.4 // indirect
+	github.com/klauspost/compress v1.17.6 // indirect
+	github.com/montanaflynn/stats v0.7.1 // indirect
+	github.com/xdg-go/pbkdf2 v1.0.0 // indirect
+	github.com/xdg-go/scram v1.1.2 // indirect
+	github.com/xdg-go/stringprep v1.0.4 // indirect
+	github.com/youmark/pkcs8 v0.0.0-20201027041543-1326539a0a0a // indirect
+	golang.org/x/crypto v0.19.0 // indirect
+	golang.org/x/sync v0.6.0 // indirect
+	golang.org/x/text v0.14.0 // indirect
 )

@@ -17,6 +17,7 @@ var (
 type Env struct {
 	AppConfig                 string
 	AppEnv                    string
+	EnvFile                   string
 	TestVar                   string
 	Port                      string
 	MongoURI                  string
@@ -24,11 +25,15 @@ type Env struct {
 	SongsCollectionName       string
 	SongsCollectionNameForDev string
 	TokensCollectionName      string
+	MusicAppURL               string
 }
 
 func (env *Env) loadENV() *Env {
 	if os.Getenv("APP_CONFIG") != "PRODUCTION" {
-		err := godotenv.Load(os.ExpandEnv("$GOPATH/src/github.com/saltchang/church-music-api/.env"))
+		env.EnvFile = os.Getenv("ENV_FILE")
+		fmt.Println("EnvFile:", env.EnvFile)
+
+		err := godotenv.Load(os.ExpandEnv(env.EnvFile))
 		if err != nil {
 			log.Fatal("Error loading .env file")
 		}
@@ -43,6 +48,7 @@ func (env *Env) loadENV() *Env {
 	env.SongsCollectionName = os.Getenv("SONGS_COLLECTION_NAME")
 	env.SongsCollectionNameForDev = os.Getenv("SONGS_COLLECTION_NAME_FOR_TEST")
 	env.TokensCollectionName = os.Getenv("TOKENS_COLLECTION_NAME")
+	env.MusicAppURL = os.Getenv("MUSIC_APP_URL")
 
 	fmt.Println("Environment:", env.AppEnv)
 	fmt.Println("Port set:", env.Port)

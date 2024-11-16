@@ -1,0 +1,19 @@
+FROM golang:1.23-alpine AS development
+
+WORKDIR /app
+
+# Install build essentials and development tools
+RUN apk add --no-cache git build-base && \
+    go install github.com/air-verse/air@latest
+
+# Copy air config
+COPY .air.toml .
+
+# Download dependencies when they change
+COPY go.mod go.sum ./
+RUN go mod download && go mod verify
+
+# Source code will be mounted at runtime
+EXPOSE 7000
+
+CMD ["air", "-c", ".air.toml"]

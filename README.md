@@ -10,7 +10,27 @@ This API is used by [Caten-Music](https://music.caten-church.org).
 
 - [MogoDB Go Driver](https://github.com/mongodb/mongo-go-driver)
 
-## Installation
+## Quick Start
+
+### Prerequisites
+
+- [Docker](https://www.docker.com)
+
+### Setup Local Env File
+
+```bash
+cp .env.example .env
+```
+
+Remember to update the `.env` file with your own environment variables.
+
+### Run the Service
+
+```bash
+docker-compose -f docker-compose.dev.yaml up --build
+```
+
+## Run with Go
 
 1. Clone repository to your `$GOPATH/src`
 2. Set your local environment variables in `.env`.  

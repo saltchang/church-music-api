@@ -32,3 +32,5 @@ church-music-api
 index.html
 
 # End of https://www.gitignore.io/api/go
+
+tmp
